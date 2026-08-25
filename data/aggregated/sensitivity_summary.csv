@@ -1,0 +1,4 @@
+analysis_unit,treatment_n,control_n,treatment_converted,control_converted,treatment_cr,control_cr,relative_uplift,z_statistic,p_value,interpretation
+Brief-defined unique users,576471,121750,12833,2379,0.02226131062967608,0.019540041067761808,0.13926631742877799,5.909964374976505,3.421817257759574e-09,Required KPI; users can appear in both groups across months.
+User-cohort,645352,126148,12835,2379,0.019888370997533128,0.018858800773694392,0.0545936210999617,2.4054576625079904,0.016152223415788692,Preferred sensitivity view for monthly re-assignment; 92 ambiguous user-cohorts excluded.
+Session,647051,126599,12836,2379,0.019837694401214124,0.018791617627311432,0.055667201975328665,2.4514613859574896,0.014227745100855158,Session-level sensitivity view; six ambiguous sessions excluded.

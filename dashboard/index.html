@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rokt Holdout Experiment Dashboard</title>
+  <style>
+    :root { --navy:#111a36; --panel:#182447; --line:#314064; --ink:#f8fafc; --muted:#aab4d1; --treatment:#f46b45; --control:#3f7cff; --teal:#1cb5a3; --warn:#f4b740; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--navy); color:var(--ink); font-family:"Segoe UI",Inter,Arial,sans-serif; }
+    button, select { font:inherit; }
+    .shell { max-width:1480px; margin:auto; padding:32px 40px 54px; }
+    .eyebrow { color:var(--muted); font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { max-width:1040px; margin:14px 0 10px; font-size:clamp(34px,5vw,64px); line-height:1.02; letter-spacing:-.04em; }
+    .lead { max-width:900px; color:#c8d0e5; font-size:17px; line-height:1.55; }
+    .controls { display:flex; gap:12px; align-items:center; margin:28px 0 20px; }
+    label { color:var(--muted); font-size:13px; font-weight:700; }
+    select { margin-left:8px; color:var(--ink); background:#1a274d; border:1px solid var(--line); padding:9px 34px 9px 12px; border-radius:6px; }
+    select:focus-visible, button:focus-visible { outline:3px solid var(--warn); outline-offset:3px; }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .card { background:var(--panel); border:1px solid var(--line); padding:20px; min-height:120px; position:relative; overflow:hidden; }
+    .card::after { content:""; position:absolute; left:0; bottom:0; width:100%; height:4px; background:var(--accent); }
+    .card span { color:var(--muted); font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .card strong { display:block; margin-top:14px; font-size:36px; color:var(--accent); }
+    .grid { display:grid; grid-template-columns:1.25fr .9fr; gap:18px; margin-top:18px; }
+    .panel { background:var(--panel); border:1px solid var(--line); padding:24px; }
+    .panel h2 { margin:0 0 6px; font-size:20px; }
+    .panel p { margin:0 0 18px; color:var(--muted); line-height:1.5; }
+    .hero-chart { width:100%; display:block; border:1px solid #24345f; }
+    .device-row { display:grid; grid-template-columns:90px 1fr 72px; gap:12px; align-items:center; margin:18px 0; }
+    .track { height:14px; background:#25345e; overflow:hidden; }
+    .bar { height:100%; background:var(--teal); transition:width .45s ease; }
+    .device-row b { text-align:right; }
+    .split { margin-top:18px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .split article { border-top:3px solid var(--teal); background:#131f40; padding:16px; }
+    .split h3 { margin:0 0 10px; font-size:13px; }
+    .split strong { font-size:24px; }
+    .split small { display:block; color:var(--muted); margin-top:7px; }
+    .audit { margin-top:18px; border-left:4px solid var(--warn); background:#191f36; padding:18px 20px; color:#d9deeb; line-height:1.55; }
+    .audit b { color:var(--warn); }
+    footer { margin-top:26px; color:var(--muted); font-size:12px; display:flex; justify-content:space-between; gap:20px; }
+    @media (max-width:900px) { .shell{padding:24px 18px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr} }
+    @media (max-width:520px) { .cards{grid-template-columns:1fr}.controls{align-items:flex-start;flex-direction:column}.device-row{grid-template-columns:72px 1fr 58px} }
+    @media (prefers-reduced-motion:reduce) { .bar{transition:none} }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <div class="eyebrow">Rokt holdout experiment / portfolio dashboard</div>
+  <h1>A positive signal—measured twice.</h1>
+  <p class="lead">The required unique-user KPI shows a 13.9% lift. A user-cohort sensitivity view is smaller, near 5.5%, because assignment can change across months.</p>
+  <div class="controls"><label for="cohort">View period <select id="cohort"><option value="overall">Overall</option></select></label></div>
+  <section class="cards" aria-label="Experiment KPIs">
+    <div class="card" style="--accent:var(--treatment)"><span>Treatment CR</span><strong id="treatment">—</strong></div>
+    <div class="card" style="--accent:var(--control)"><span>Control CR</span><strong id="control">—</strong></div>
+    <div class="card" style="--accent:var(--teal)"><span>Relative uplift</span><strong id="uplift">—</strong></div>
+    <div class="card" style="--accent:var(--warn)"><span>P-value</span><strong id="pvalue">—</strong></div>
+  </section>
+  <section class="grid">
+    <article class="panel">
+      <h2>Treatment stayed above control</h2>
+      <p>Conversion declined in both arms from February to June, but the treatment-control gap remained positive.</p>
+      <img class="hero-chart" src="../images/cohort_conversion_rates.png" alt="Line chart of treatment and control conversion rates by cohort">
+    </article>
+    <article class="panel">
+      <h2>Device uplift</h2>
+      <p>Descriptive segmentation, ordered by relative uplift.</p>
+      <div id="devices"></div>
+    </article>
+  </section>
+  <section class="panel" style="margin-top:18px">
+    <h2>Robustness across analysis units</h2>
+    <p>The headline changes when repeated users are represented at a different level. This is the key analytical caveat.</p>
+    <div class="split" id="sensitivity"></div>
+  </section>
+  <aside class="audit"><b>Audit note.</b> The cleaning pipeline removed 36,893 exact duplicate rows and repaired missing device/gender categories. 26,426 users changed groups across months, while only 92 user-cohort pairs appeared in both groups.</aside>
+  <footer><span>Source: supplied Feb–Jun 2020 holdout dataset; raw identifiers excluded.</span><span>Built with Python, pandas, statistical testing, and privacy-safe aggregates.</span></footer>
+</main>
+<script>
+const data = {"overall": {"label": "Overall", "treatment": 0.02226131062967608, "control": 0.019540041067761808, "uplift": 0.13926631742877799, "p": 3.421817257759574e-09}, "cohorts": [{"cohort_label": "Feb 2020", "treatment_cr": 0.0300110291983514, "control_cr": 0.0235240658534027, "relative_uplift": 0.2757585948523564, "p_value": 2.39988496342486e-08}, {"cohort_label": "Mar 2020", "treatment_cr": 0.0294030138089154, "control_cr": 0.0231298799429099, "relative_uplift": 0.2712134209727458, "p_value": 6.737232911198943e-07}, {"cohort_label": "Apr 2020", "treatment_cr": 0.0210291720142911, "control_cr": 0.0188459429824561, "relative_uplift": 0.1158461019364969, "p_value": 0.018958968206593}, {"cohort_label": "May 2020", "treatment_cr": 0.0181869382582779, "control_cr": 0.0156383432963279, "relative_uplift": 0.1629709051436736, "p_value": 0.0125941607983012}, {"cohort_label": "Jun 2020", "treatment_cr": 0.0152505446623093, "control_cr": 0.0120514504229595, "relative_uplift": 0.2654530473157924, "p_value": 5.649484273118023e-05}], "devices": [{"device": "Desktop", "treatment_cr": 0.0308648697703965, "control_cr": 0.0239011693977051, "relative_uplift": 0.2913539608384178, "treatment_users": 110190, "control_users": 27279}, {"device": "Other", "treatment_cr": 0.0232527001695974, "control_cr": 0.0186693396817441, "relative_uplift": 0.2455020137822621, "treatment_users": 22406, "control_users": 7981}, {"device": "Tablet", "treatment_cr": 0.0206579727326615, "control_cr": 0.0170044052863436, "relative_uplift": 0.2148600544855355, "treatment_users": 67480, "control_users": 11350}, {"device": "Mobile", "treatment_cr": 0.0193535432584385, "control_cr": 0.0181849216144534, "relative_uplift": 0.0642632214073615, "treatment_users": 388456, "control_users": 76162}], "sensitivity": [{"analysis_unit": "Brief-defined unique users", "treatment_cr": 0.022261310629676, "control_cr": 0.0195400410677618, "relative_uplift": 0.1392663174287779, "p_value": 3.421817257759574e-09}, {"analysis_unit": "User-cohort", "treatment_cr": 0.0198883709975331, "control_cr": 0.0188588007736943, "relative_uplift": 0.0545936210999617, "p_value": 0.0161522234157886}, {"analysis_unit": "Session", "treatment_cr": 0.0198376944012141, "control_cr": 0.0187916176273114, "relative_uplift": 0.0556672019753286, "p_value": 0.0142277451008551}]};
+const pct = (v,d=2) => new Intl.NumberFormat('en-US',{style:'percent',minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
+const cohort = document.querySelector('#cohort');
+data.cohorts.forEach((row,i)=>{ const option=document.createElement('option'); option.value=i; option.textContent=row.cohort_label; cohort.append(option); });
+function updateCards(){ const row=cohort.value==='overall'?data.overall:data.cohorts[Number(cohort.value)]; document.querySelector('#treatment').textContent=pct(row.treatment ?? row.treatment_cr); document.querySelector('#control').textContent=pct(row.control ?? row.control_cr); document.querySelector('#uplift').textContent=(row.uplift ?? row.relative_uplift)>=0?`+${pct(row.uplift ?? row.relative_uplift,1)}`:pct(row.uplift ?? row.relative_uplift,1); const p=row.p ?? row.p_value; document.querySelector('#pvalue').textContent=p<0.001?'<0.001':p.toFixed(3); }
+cohort.addEventListener('change',updateCards); updateCards();
+document.querySelector('#devices').innerHTML=data.devices.map(row=>`<div class="device-row"><span>${row.device}</span><div class="track"><div class="bar" style="width:${Math.max(0,row.relative_uplift)*300}%"></div></div><b>${pct(row.relative_uplift,1)}</b></div>`).join('');
+document.querySelector('#sensitivity').innerHTML=data.sensitivity.map(row=>`<article><h3>${row.analysis_unit}</h3><strong>${row.relative_uplift>=0?'+':''}${pct(row.relative_uplift,1)}</strong><small>T ${pct(row.treatment_cr)} · C ${pct(row.control_cr)} · p ${row.p_value<0.001?'&lt;0.001':row.p_value.toFixed(3)}</small></article>`).join('');
+</script>
+</body>
+</html>

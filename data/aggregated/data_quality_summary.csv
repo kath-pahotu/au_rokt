@@ -1,0 +1,12 @@
+check,count,status
+Raw rows,889091,Input
+Invalid cohort rows removed,1,Removed
+Exact duplicate rows removed,36893,Removed
+Clean analysis rows,852197,Output
+Missing device values filled,118,Repaired
+Missing gender values filled,87065,Repaired
+Unique users,671795,Context
+Unique sessions,773656,Context
+Users appearing in both groups across months,26426,Caution
+User-cohort pairs appearing in both groups,92,Caution
+Sessions appearing in both groups,6,Caution

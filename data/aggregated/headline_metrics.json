@@ -1,0 +1,18 @@
+{
+  "cr_treatment": 0.02226131062967608,
+  "cr_control": 0.019540041067761808,
+  "absolute_lift": 0.002721269561914274,
+  "relative_uplift": 0.13926631742877799,
+  "z_statistic": 5.909964374976505,
+  "p_value": 3.421817257759574e-09,
+  "absolute_lift_ci_low": 0.0018555040717925333,
+  "absolute_lift_ci_high": 0.0035870350520360145,
+  "relative_uplift_ci_low": 0.09097570846905056,
+  "relative_uplift_ci_high": 0.18969444686269998,
+  "extra_conversions_estimate": 1568.7329856262822,
+  "average_conversion_value_usd": 152.9179803738318,
+  "incremental_conversion_value_estimate_usd": 239887.4799077824,
+  "clean_rows": 852197,
+  "unique_users": 671795,
+  "unique_sessions": 773656
+}
