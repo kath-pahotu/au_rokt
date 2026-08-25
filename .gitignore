@@ -1,0 +1,16 @@
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Python / notebook runtime files
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# Source dataset: 123 MB and duplicated locally; obtain from the original assessment source.
+rokt_data.csv
+raw_data/**/*.csv
