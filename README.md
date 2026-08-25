@@ -84,4 +84,4 @@ For the notebook, set `ROKT_DATA_PATH` to the same authorized CSV path.
 
 ## Data privacy
 
-This public portfolio structure contains aggregate outputs only. Raw campaign data, pseudonymous user/session identifiers, proprietary brief screenshots, extraction passwords, and internal AI handoff documents are excluded.
+This public portfolio structure contains aggregate outputs only. Raw campaign data, pseudonymous user/session identifiers, proprietary brief screenshots and extraction passwords are excluded.
