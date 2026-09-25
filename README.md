@@ -16,7 +16,7 @@ The experiment audit found that users can change assignment across months. A use
 |---|---|
 | Treatment conversion rate | 2.2261% |
 | Control conversion rate | 1.9540% |
-| Absolute lift | 0.272% percentage points |
+| Absolute lift | 0.272 percentage points |
 | Relative uplift | +13.93% |
 | 95% CI, relative uplift | 9.1% to 19.0% |
 | Estimated additional conversions | 1,569 |

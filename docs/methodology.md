@@ -51,3 +51,9 @@ The user-cohort and session views are sensitivity analyses rather than replaceme
 - Segment results are exploratory and unadjusted for multiple testing.
 - Exact duplicates are treated as ingestion duplicates; this assumption should be confirmed with the data owner.
 - The raw source and proprietary assignment screenshots are deliberately excluded from the public repository.
+
+## What the intervals assume
+
+The published intervals and p-values are conventional two-proportion calculations under independent group observations. Cross-group user overlap and repeated users across months can violate that assumption. The user-cohort and session views test the metric definition; they are not a cluster-adjusted analysis and do not establish independent assignment.
+
+The decision-changing check is the original assignment and reassignment policy, followed by confirmation that exact duplicate rows are ingestion duplicates rather than legitimate repeated events. Until those are verified, keep the positive direction as a provisional signal and do not use the conventional interval or illustrative conversion value as a rollout guarantee. No cluster-adjusted inference or new experiment is claimed here.

@@ -6,7 +6,7 @@ The experiment shows a positive conversion signal. Under the assignment's unique
 
 ## Evidence
 
-- Absolute lift: **0.272% percentage points**.
+- Absolute lift: **0.272 percentage points**.
 - Conventional significance: **p = 3.42e-09**.
 - Positive uplift in all five monthly cohorts.
 - Estimated **1,569 additional conversions** under the simple control-rate counterfactual.
@@ -23,3 +23,7 @@ Treat the experiment as a positive signal, validate assignment logic, and invest
 ## Data controls
 
 The public portfolio excludes raw campaign data, identifiers, assignment screenshots, passwords, and internal handoff notes. All published tables are aggregate-only.
+
+## Inference boundary
+
+The reported significance uses a conventional independence assumption that the assignment audit leaves unresolved. Sensitivity views are not a substitute for confirming assignment and dependence. The financial estimate remains illustrative; no realized revenue or profit is demonstrated.
